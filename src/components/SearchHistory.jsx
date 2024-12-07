@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import ItemSearchHistory from './ItemSearchHistory';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromHistoryResearches} from './../features/searchSlice';
 
 function SearchHistory() {
 
+  const historyResearches = useSelector((state) => {
+    const result = [...state.search.historyResearches];
+    return result.reverse();
+});
 
-  const [history, setHistory] = useState(['Search 1', 'Search 2', 'Search 3','Search 1', 'Search 2', 'Search 3','Search 1', 'Search 2', 'Search 3','Search 1', 'Search 2', 'Search 3','Search 1', 'Search 2', 'Search 3','Search 1', 'Search 2', 'Search 3']);
 
-  const handleRemove = (index) => {
-    setHistory((prev) => prev.filter((_, i) => i !== index));
+
+  const dispatch = useDispatch();
+  const handleRemove = (word) => {
+    dispatch(removeFromHistoryResearches(word))
   };
 
   return (
     <div className="absolute flex flex-col top-full w-full rounded-md mt-1 bg-slate-100 overflow-auto p-4 h-auto max-sm:max-h-[300px] max-h-[500px]">
-      {history.length === 0 ? (
-        <div className="text-center text-gray">No search history</div>
+      {historyResearches.length === 0 ? (
+        <div className="text-center max-sm:text-sm text-gray">No search history</div>
       ) : (
-        history.map((item, index) => (
+        historyResearches.map((item, index) => (
           <ItemSearchHistory
             key={index}
             text={item}
-            onRemove={() => handleRemove(index)}
+            onRemove={() => handleRemove(item)}
           />
         ))
       )}
