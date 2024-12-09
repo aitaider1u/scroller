@@ -3,7 +3,7 @@ name: Deploy Vite App to GitHub Pages
 on:
   push:
     branches:
-      - main  # Déclenchement sur les pushes de la branche principale
+      - main  # Remplacez par votre branche si ce n'est pas "main"
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 16  # Assurez-vous que c'est compatible avec votre projet
+        node-version: 18  # Utilisez Node.js 18 ou plus récent
 
     - name: Install dependencies
       run: npm install
