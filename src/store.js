@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import counterReducer from './features/counterSlice';
-import searchrReducer from './features/searchSlice';
+import searchReducer from './features/searchSlice';
+import appReducer from './features/appSlice';
 
 const store = configureStore({
   reducer: {
     counter: counterReducer,
-    search: searchrReducer,
+    search: searchReducer,
+    appState:appReducer
   },
 });
 

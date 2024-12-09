@@ -1,10 +1,19 @@
 import React, { useRef } from "react";
-import SearchIcon from "./../assets/search-icon.png";
-import CleanIcon from "./../assets/remove-icon.png";
+import SearchIcon from "./../../assets/search-icon.png";
+import CleanIcon from "./../../assets/remove-icon.png";
 import SearchHistory from "./SearchHistory";
-import { addToHistoryResearches,updatecurrentSearch} from './../features/searchSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import LikeCounter from "./../../layouts/LikeCounter";
 
+import {
+  updatecurrentSearch,
+  addToHistoryResearches
+} from "./../../features/searchSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  updateState
+} from "./../../features/appSlice";
+import { PageEnum } from "../../utils/EnumApp";
 
 function SearchBar() {
   const inputRef = useRef();
@@ -19,27 +28,35 @@ function SearchBar() {
     inputRef.current.value = "";
   };
 
-  // Empêcher la fermeture si on clique dans SearchHistory ou les enfants
   const handleClickOutside = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
       setFocused(false);
     }
   };
 
-  const handeSearchButton =  () => {
+  const handeSearchButton = () => {
     const keyworld = inputRef.current.value;
 
-    if(keyworld.length > 0){
-      dispatch(addToHistoryResearches(keyworld.trim()))
-      dispatch(updatecurrentSearch(keyworld.trim()))
+    if (keyworld.length > 0) {
+      dispatch(addToHistoryResearches(keyworld.trim()));
+      dispatch(updatecurrentSearch(keyworld.trim()));
+      handleChangeAppState(PageEnum.SEARCH)
     }
-  }
+  };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handeSearchButton()
+      handleChangeAppState(PageEnum.SEARCH)
+      setFocused(false);
+
     }
   };
+
+  const handleChangeAppState = (newState) => {
+    dispatch(updateState(newState))
+  }
+
 
   return (
     <>
@@ -51,7 +68,8 @@ function SearchBar() {
         <img
           src={SearchIcon}
           alt=""
-          className="max-sm:w-10 max-sm:h-10 w-12 h-12 bg-teal-300 p-2 rounded-md"
+          className="max-sm:w-10 max-sm:h-10 w-12 h-12 bg-teal-200 p-2 rounded-md"
+          onClick={() => handleChangeAppState(PageEnum.HOME)}
         />
         <div className="relative flex max-w-lg w-screen">
           <input
@@ -68,15 +86,20 @@ function SearchBar() {
             alt=""
             className="absolute right-4 top-1/2 -translate-y-1/2 h-6 hover:opacity-50 z-10"
           />
-          {focused && <SearchHistory />}
+          {focused && <SearchHistory     setFocused={setFocused} />}
         </div>
-        <button onClick={handeSearchButton} className="h-12 bg-teal-300 max-sm:hidden rounded-md text-center p-2">
+        <button
+          onClick={handeSearchButton}
+          className="h-12 bg-teal-200 max-md:hidden rounded-md text-center p-2"
+        >
           Search
         </button>
+        <div>
+          <LikeCounter></LikeCounter>
+        </div>
+
       </div>
-      <p> toto : {currentSearch}</p>
     </>
-    
   );
 }
 

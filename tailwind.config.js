@@ -5,7 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        typewriter: {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
+      },
+      animation: {
+        typewriter: 'typewriter 3s steps(40, end) forwards', // vitesse ajustée à 3 secondes
+      },
+    },
   },
   plugins: [],
 }
