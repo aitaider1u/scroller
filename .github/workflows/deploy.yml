@@ -3,7 +3,7 @@ name: Deploy Vite App to GitHub Pages
 on:
   push:
     branches:
-      - main  # Remplacez par votre branche si ce n'est pas "main"
+      - main  # Le workflow se déclenche sur la branche "main"
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 18  # Utilisez Node.js 18 ou plus récent
+        node-version: 18
 
     - name: Install dependencies
       run: npm install
@@ -37,3 +37,4 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
+        destination_branch: gh-pages
