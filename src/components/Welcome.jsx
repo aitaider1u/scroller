@@ -40,7 +40,7 @@ function Welcome(params) {
       <div className="pt-3 flex-1 bg-teal-100">
         <div className="h-full text-center overflow-hidden flex flex-col justify-center items-center p-4">
           <img
-            src={"/images/" + images[currentImage]}
+            src={`${import.meta.env.BASE_URL}images/${images[currentImage]}`}
             alt=""
             className="w-full h-full object-contain rounded-xl max-h-[600px] max-w-[600px]"
           />
@@ -57,7 +57,7 @@ function Welcome(params) {
             Le monde 🌍 visuel, entre vos mains.
           </h1>
           <img
-            src={"/images/" + images[currentImage + nbImages / 2]}
+            src={`${import.meta.env.BASE_URL}images/${images[currentImage + nbImages / 2]}`}
             alt=""
             className="w-full h-full object-contain rounded-xl max-h-[700px] max-w-[700px]"
           />
