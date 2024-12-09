@@ -1,9 +1,9 @@
-name: Deploy Vite App to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Le workflow se déclenche sur la branche "main"
+      - main
 
 jobs:
   deploy:
@@ -21,15 +21,7 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Set environment variables
-      env:
-        VITE_API_URL: ${{ secrets.VITE_API_URL }}
-        VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-      run: |
-        echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
-        echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> $GITHUB_ENV
-
-    - name: Build the Vite app
+    - name: Build the app
       run: npm run build
 
     - name: Deploy to GitHub Pages
@@ -37,4 +29,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
-        destination_branch: gh-pages
