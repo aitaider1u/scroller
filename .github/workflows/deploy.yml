@@ -1,41 +1,37 @@
 name: Deploy Vite App to GitHub Pages
 
-# Déclenchement : chaque fois qu'il y a un push sur la branche principale
 on:
   push:
     branches:
-      - main  # Remplacez 'main' par le nom de votre branche si ce n'est pas 'main'
+      - main  # Déclenchement sur les pushes de la branche principale
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # Étape 1 : Récupérer le code de votre repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Étape 2 : Installer Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 16  # Remplacez par la version compatible avec votre app
+        node-version: 16  # Assurez-vous que c'est compatible avec votre projet
 
-    # Étape 3 : Installer les dépendances
     - name: Install dependencies
       run: npm install
 
-    # Étape 4 : Ajouter les variables d'environnement à partir des secrets
     - name: Set environment variables
+      env:
+        VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
       run: |
         echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
         echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> $GITHUB_ENV
 
-    # Étape 5 : Construire l'application Vite
     - name: Build the Vite app
       run: npm run build
 
-    # Étape 6 : Déployer sur GitHub Pages
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
